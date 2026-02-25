@@ -20,8 +20,15 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+                node-version: 20
+                # 如果您沒有 package-lock.json，請移除下面這一行，或者確保根目錄有該檔案
+                # cache: 'npm' 
+
+      - name: Install dependencies
+        run: |
+          # 移除不必要的 registry 設定，除非您有特殊需求
+          npm install
+        # 移除 working-directory: web-dashboard，因為您的 package.json 在根目錄
 
       - name: Install dependencies
         run: npm install

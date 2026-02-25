@@ -21,29 +21,25 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: Install dependencies
-        run: |
-          npm config set registry https://registry.npmjs.org/
-          npm cache clean --force
-          npm install
-        working-directory: web-dashboard
+        run: npm install
 
       - name: Build
         run: npm run build
-        working-directory: web-dashboard
         env:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        # ⚠️ 這裡把 with: enablement: true 刪除！
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './web-dashboard/dist'
+          # Vite 預設打包輸出的資料夾是 dist
+          path: './dist'
 
   deploy:
     environment:
